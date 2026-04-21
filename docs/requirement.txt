@@ -1,0 +1,82 @@
+# ===============================================================
+# MISSION FPALANTIR: JARVIS CORE - INSTALLATION BOX
+# ===============================================================
+# Terminal mein run karein: pip install -r requirements.txt
+
+cohere==5.11.0
+groq==0.11.0
+selenium==4.26.0
+requests==2.32.3
+beautifulsoup4==4.12.3
+PyAudio==0.2.14
+SpeechRecognition==3.10.3
+faster-whisper==1.0.3
+edge-tts==6.1.12
+pygame==2.6.1
+pyautogui==0.9.54
+python-dotenv==1.0.1
+
+# ===============================================================
+# DETAILED TOOL EXPLANATIONS & JARVIS EXAMPLES (Commented Out)
+# ===============================================================
+
+# --- [ COHERE ] ---
+# KYUN: User ki natural language ko samajh kar "Intent" classify karne ke liye.
+# KAISE: Ye traffic cop ki tarah kaam karta hai aur decisions leta hai.
+# JARVIS EXAMPLE: Agar aap kahein "Jarvis, volume kam karo," toh Cohere turant isko 'System Task' bucket mein dal dega taaki direct automation trigger ho sake.
+
+# --- [ GROQ ] ---
+# KYUN: Jarvis ka main intelligence engine (Brain).
+# KAISE: Ye super-fast LPU technology use karta hai responses generate karne ke liye.
+# JARVIS EXAMPLE: Agar aap puchenge "Jarvis, startup ke liye funding kaise milti hai?", toh Groq milliseconds mein ek professional aur logical guide taiyar kar dega.
+# 
+
+# --- [ SELENIUM ] ---
+# KYUN: Heavy-duty browser automation ke liye (Login/Click/Scroll).
+# KAISE: Ye background mein asli browser (jaise Chrome) khol kar kaam karta hai.
+# JARVIS EXAMPLE: Agar aap kahein "Jarvis, Swiggy par mera last order status check karo," toh Selenium background mein Swiggy khol kar login karega aur status dhoondega.
+
+# --- [ REQUESTS ] ---
+# KYUN: Fast aur lightweight internet data fetch karne ke liye.
+# KAISE: Ye bina browser khole chupke se raw data le aata hai (Selenium se 10x fast).
+# JARVIS EXAMPLE: "Jarvis, Dehradun ka current temperature kya hai?"—Requests turant kisi weather API ya site se data utha layega.
+
+# --- [ BEAUTIFULSOUP4 ] ---
+# KYUN: HTML code se sirf kaam ki information nikalne ke liye (The Filter).
+# KAISE: Ye messy website code ko saaf karke sirf readable text filter karta hai.
+# JARVIS EXAMPLE: Jab Requests weather data layega, toh BeautifulSoup us poore code mein se sirf "28°C" nikaal kar Groq ko dega.
+
+# --- [ PYAUDIO ] ---
+# KYUN: Microphone hardware interface.
+# KAISE: Ye Python ko aapke physical microphone se connect karta hai sound capture karne ke liye.
+# JARVIS EXAMPLE: Jaise hi aap "Jarvis" bolte hain, PyAudio sound waves ko hardware se Python code tak pahunchata hai.
+
+# --- [ SPEECHRECOGNITION ] ---
+# KYUN: Audio capture management aur Silence Detection.
+# KAISE: Ye handle karta hai ki recording kab start karni hai aur user ke chup hone par kab stop karni hai.
+# JARVIS EXAMPLE: Jab aap apna command bol kar rukte hain, ye tool samajh jata hai ki baat khatam ho gayi aur process aage badhata hai.
+
+# --- [ FASTER-WHISPER ] ---
+# KYUN: Offline, private aur high-speed Speech-to-Text (STT).
+# KAISE: Ye voice recording ko readable text string mein badalta hai bina internet ke.
+# JARVIS EXAMPLE: Aapki aawaz "Hello Jarvis" ko ye tool text mein convert karke system ko dega: `user_input = "Hello Jarvis"`.
+
+# --- [ EDGE-TTS ] ---
+# KYUN: AI text ko human-like natural voice mein badalne ke liye.
+# KAISE: Microsoft ki high-quality voice API use karta hai jo robotic nahi lagti.
+# JARVIS EXAMPLE: Groq ne likha "Good morning Technoid," toh Edge-TTS usko ek pyari aawaz mein convert kar dega.
+
+# --- [ PYGAME ] ---
+# KYUN: Non-blocking audio playback ke liye.
+# KAISE: Ye background mein audio file (.mp3) play karta hai bina main code ko roke.
+# JARVIS EXAMPLE: Jab Jarvis bol raha hota hai, tab Pygame aawaz nikalta hai aur system doosre tasks (jaise light control) simultaneously kar sakta hai.
+
+# --- [ PYAUTOGUI ] ---
+# KYUN: OS level control ke liye (The Hands).
+# KAISE: Ye keyboard keys dabata hai aur mouse hilata hai.
+# JARVIS EXAMPLE: Agar aap kahein "Canva open karo," toh PyAutoGUI Windows key dabayega, "Canva" type karega aur Enter press kar dega.
+
+# --- [ PYTHON-DOTENV ] ---
+# KYUN: Security aur Privacy (The Vault).
+# KAISE: API keys ko ek secret `.env` file mein chhupakar rakhta hai.
+# JARVIS EXAMPLE: Groq aur Cohere ki keys script mein nahi balki vault mein rahengi, taaki koi aapka code chura le toh bhi keys safe rahein.
