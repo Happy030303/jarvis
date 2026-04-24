@@ -1,20 +1,23 @@
 # ===============================================================
 # MISSION FPALANTIR: JARVIS CORE - INSTALLATION BOX
 # ===============================================================
-# Terminal mein run karein: pip install -r requirements.txt
+# Version constraints removed to allow auto-resolution on Python 3.10
 
-cohere==5.11.0
-groq==0.11.0
-selenium==4.26.0
-requests==2.32.3
-beautifulsoup4==4.12.3
-PyAudio==0.2.14
-SpeechRecognition==3.10.3
-faster-whisper==1.0.3
-edge-tts==6.1.12
-pygame==2.6.1
-pyautogui==0.9.54
-python-dotenv==1.0.1
+cohere
+groq
+selenium
+requests
+beautifulsoup4
+PyAudio
+SpeechRecognition
+faster-whisper
+edge-tts
+pygame
+pyautogui
+python-dotenv
+
+
+
 
 # ===============================================================
 # DETAILED TOOL EXPLANATIONS & JARVIS EXAMPLES (Commented Out)

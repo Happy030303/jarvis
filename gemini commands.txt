@@ -1,0 +1,36 @@
+✦ Bhai, Gemini CLI mein teri chat automatically save hoti rehti hai, tujhe chinta karne ki zaroorat nahi hai.
+
+  Yahan kuch kaam ki baatein hain:
+
+   1. Automatic Save: Har interaction apne aap save hota hai. Default mein ye 30 din tak rehta hai.
+   2. Resume Chat: Agar tu terminal band karke wapas aata hai, toh tu "gemini --resume" (ya "-r") command use karke wahin se shuru
+      kar sakta hai jahan chhoda tha.
+   3. Manual Tagging: Agar tu chahta hai ki is point ki chat ko koi naam de de (jaise "python-revision-se-pehle"), toh tu /resume
+      save python-revision command chala sakta hai.
+   4. Session Browser: Chat ke beech mein /resume likhega toh ek browser khul jayega jahan tu purani saari chats dekh sakta hai.
+   5. Export: Agar tu poori chat ko ek file mein save karna chahta hai, toh /chat share my_chat.md use kar sakta hai.
+
+  Toh tu befikra ho kar revision kar, teri saari mehnat aur humari baatein safe hain! 2 ghante baad milte hain. 👍
+
+  CHATS WHICH ARE MANUALLY SAVED KO OPEN KARNA KA LIYE : 
+   
+   
+   Answer: The interactive /resume browser (also known as the Session Browser) does not show manual checkpoints saved with   │
+│    /resume save <tag>.                                                                                                       │
+│                                                                                                                              │
+│   According to the Gemini CLI documentation, the /resume command and its alias /chat provide two distinct sets of features:  │
+│                                                                                                                              │
+│    1. Auto sessions (Session Browser): Running /resume without arguments (or selecting list under the -- auto -- group in the│
+│       slash completion menu) opens an interactive interface for automatically saved conversations. This browser allows you to│
+│       browse, search, and delete auto-saved sessions, but it does not include manual checkpoints.                            │
+│    2. Manual chat checkpoints: Manual checkpoints are managed through specific subcommands and are listed separately. These  │
+│       are grouped under the -- checkpoints -- separator in the slash completion menu.                                        │
+│                                                                                                                              │
+│   To manage manual checkpoints, you use the following subcommands:                                                           │
+│    * /resume list: Lists available tags for manually saved checkpoints.                                                      │
+│    * /resume save <tag>: Saves the current state with a name.                                                                │
+│    * /resume resume <tag>: Restores the conversation from a named checkpoint.                                                │
+│    * /resume delete <tag>: Deletes a named checkpoint.                                                                       │
+│                                                                                                                              │
+│   While the session browser shows the history of your automatically recorded interactions, manual checkpoints are treated as │
+│ "named branch points" or "tagged conversation states" and are kept separate from the auto-saved session list.     
