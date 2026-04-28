@@ -1,0 +1,72 @@
+✦ Analyzing Project Context I'm currently working to synthesize all I
+  know about the "Jarvis" project: the low-latency goal, the semantic
+  routing, and the multi-threaded backend. My aim is to create a
+  comprehensive prompt that clearly defines each document's purpose.
+  I'm focusing on making the structure and the project's overall
+  objective easy for anyone to understand.
+  [Thought: true]Refining Doc Definitions I'm now zeroing in on
+  defining each document's role within the "Jarvis" project. I've
+  pinpointed GEMINI.md as the core mandate for the "Sahi Sequence." My
+  next move is to draft a prompt that clearly distinguishes the
+  technical specifications, requirements, and development steps across
+  the various documentation files, ensuring a cohesive understanding
+  of the project's structure and goals.
+  [Thought: true]Crafting the Master Prompt I'm now crafting a
+  "Project Context Prompt" to ensure any AI I interact with
+  immediately understands the "Jarvis" project. It'll start by
+  defining our mission: a multi-threaded, low-latency assistant. Then,
+  I'll meticulously detail each document's purpose, from the mandates
+  in GEMINI.md to the roadmap in steps_to_make_jarvis.md. I'm
+  including the "Sahi Sequence" instructions to guarantee consistency.
+  My goal is to make the project's structure and aim crystal clear.
+  [Thought: true]Aapka project structure aur aims kaafi solid hain.
+  Naye system par Gemini CLI ko sab kuch ek baar mein samjhane ke liye
+  aap ye "Master Project Context Prompt" use kar sakte hain.
+
+  Ise aap Project-Level Memory ya Initial Prompt ki tarah use kar
+  sakte hain:
+
+  ---
+
+  Jarvis Project Master Prompt:
+
+  > "I am building JARVIS: a multi-threaded, low-latency Desktop AI
+  Assistant. Here is my project structure and the purpose of each
+  document. Understand this context before suggesting anything:
+  >
+  > 1. GEMINI.md (The Core Mandate): Follow the 'Sahi Sequence'
+  workflow defined here (Goal -> MWE -> Run & Break -> Focused Docs ->
+  Manual Addition). Do NOT skip steps or provide full code unless I
+  ask for a review.
+  > 2. docs/requirement.txt: Contains all necessary Python libraries
+  and their 'Kyun' (Why) and 'Jarvis Example'. Refer to this for tool
+  usage.
+  > 3. docs/spec.md (The Architecture): Defines the system objective,
+  multi-threaded flow (Frontend/Backend), and the 4 execution paths
+  (General, Real-Time, Automation, Image Gen).
+  > 4. docs/steps_to_make_jarvis.md: My roadmap. It lists the phases
+  of development (STT, Brain, Automation, etc.).
+  > 5. docs/testing_strategy.md: Guidelines on how to test each
+  module.
+  > 6. backend/ (The Engine):
+  >    - module1.py: Master Speech-to-Text (STT) logic with deep
+  Hinglish comments.
+  >    - module2.py: System Utilities (e.g., The Silencer for
+  ALSA/JACK errors).
+  >    - practice.py: My manual coding playground.
+  >
+  > Our Aim: To build a modular AI that is fast, secure (using .env),
+  and follows a semantic routing logic using Cohere and Groq.
+  >
+  > Always prioritize the Sahi Sequence and use Hinglish for
+  Jarvis Tip:
+  Agar aap chahte hain ki Gemini CLI ye hamesha yaad rakhe, toh aap ye
+  command terminal mein run kar sakte hain:
+
+  gemini save-memory --project "I am building Jarvis AI. Follow the
+  Sahi Sequence in GEMINI.md and refer to docs/spec.md for
+  architecture."
+
+  Sahi Sequence (Step 5):
+  Ab aap practice.py mein "The Silencer" integrate kar rahe hain. Kya
+  main aapke logic ka intezaar karun ya aapko koi hint chahiye?

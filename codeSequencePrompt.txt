@@ -1,0 +1,23 @@
+> "Write the code for [INSERT FEATURE NAME
+  HERE] in Python. Follow the 'Execution Flow
+  Sequence' style like this:
+  > 
+  > 1. Numbered Steps: Har us line par number
+  dalo (# 1, # 2...) jo Python actually execute
+  karta hai, usi sequence mein jis sequence mein
+  wo chalti hai.
+  > 2. Definition vs Execution: Jab function
+  define karo, toh likho 'Ye sirf define hua
+  hai, abhi chalega nahi'. 
+  > 3. The Jump Logic: Agar Step #8 par koi
+  function call ho raha hai, toh function ke
+  andar ki pehli line Step #9 honi chahiye.
+  Matlab, numbering call stack ko follow karegi.
+  > 4. Hinglish Explanation: Comments mein
+  Hinglish use karo aur 'Kyun' (Why) aur 'Kaise'
+  (How) samjhao.
+  > 5. Main Block: Code hamesha if __name__ ==
+  "__main__": se shuru hona chahiye taaki
+  execution flow clear dikhe.
+  > 6. Visual Markers: Har bade section ke liye
+  visual borders use karo."

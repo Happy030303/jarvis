@@ -1,124 +1,210 @@
-# 1. Necessary libraries import kar rahe hain.
-from faster_whisper import WhisperModel  # AI model for speech-to-text
-import speech_recognition as sr           # Mic handling ke liye
-import logging                            # Logging updates
-import os                                 # File path management
+# ╔══════════════════════════════════════════════════════════════╗
+# ║  JARVIS MODULE 1: SPEECH TO TEXT (HINGLISH VERSION)          ║
+# ║  Focus: Understanding the 'What', 'Why', and 'Returns'       ║
+# ╚══════════════════════════════════════════════════════════════╝
 
-# 2. Setup logging to keep terminal output clean.
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+# ================================================================
+# SECTION: EXTERNAL TOOLS (IMPORTS)
+# ================================================================
 
-def capture_audio():
-    # 5. Recognizer object banaya jo sound process karega.
-    recognizer = sr.Recognizer()
-    
-    # 6. Mic ko source ki tarah open kiya.
-    with sr.Microphone() as source:
-        print("\n--- Mic Testing ---")
-        print("i am listening...")
-        
-        try:
-            # 7. Background noise adjust karna (0.5 sec).
+# [faster_whisper]: Ye hamara "Offline Brain" hai jo audio sunta hai. 
+# Kyun: Taki bina internet ke bhi humari aawaz text mein badal sake.
+from faster_whisper import WhisperModel 
+
+# [speech_recognition]: Mic hardware se baat karne ke liye zaruri hai.
+# Kyun: Ye Python ko batata hai ki mic kab on karna hai aur kab off.
+import speech_recognition as sr 
+
+# [logging]: Background messages ko control karne ke liye.
+# Kyun: Taki terminal par faltu ki errors na dikhein, sirf hamare kaam ki cheezein dikhein.
+import logging 
+
+# [os]: Operating System se baat karne ke liye.
+# Kyun: Files save karne aur folders banane (audio/stored_text) ke liye iski zarurat hai.
+import os 
+
+# [re]: Regular Expressions (Pattern matching).
+# Kyun: Ye check karne ke liye ki text mein Hindi characters hain ya nahi.
+import re 
+
+# [indic_transliteration]: Script conversion tools.
+# Kyun: Hindi (Devanagari) script ko English letters (Hinglish) mein badalne ke liye.
+from indic_transliteration import sanscript 
+from indic_transliteration.sanscript import transliterate 
+
+# Terminal output ko saaf rakhne ke liye sirf Warnings dikhao.
+logging.basicConfig(level=logging.WARNING, format='%(message)s')
+
+# ================================================================
+# SECTION: GLOBAL AI MODEL INITIALIZATION
+# ================================================================
+
+print("Whisper model load ho raha hai... (sirf ek baar)")
+
+# [WHISPER_MODEL]: Is line par AI model actually RAM mein load hota hai.
+# Mode: "base" (balance of speed and accuracy).
+# Device: "cpu" (taaki kisi bhi computer par chal sake).
+# Compute: "int8" (memory bachane ke liye numbers ko chota rakhta hai).
+WHISPER_MODEL = WhisperModel("base", device="cpu", compute_type="int8")
+
+print("Model ready hai!\n")
+
+
+# ================================================================
+# SECTION: FUNCTION DEFINITIONS (Ye sirf yahan define ho rahe hain)
+# ================================================================
+
+def has_devanagari(text):
+    """
+    KAAM: Check karna ki kya word mein Hindi characters hain.
+    KYUN: Taki hume pata chale ki kis word ko English script mein badalna hai.
+    RETURN: True (agar Hindi hai) ya False (agar nahi hai).
+    """
+    return bool(re.search(r'[\u0900-\u097F]', text))
+
+
+def capture_audio(mic_index=24):
+    """
+    KAAM: Microphone se awaaz record karna.
+    KYUN: User ki commands ko capture karke computer tak pahunchana.
+    PARAM: mic_index (Kaunsa mic use karna hai).
+    RETURN: AudioData object (Raw sound bytes).
+    """
+    recognizer = sr.Recognizer() # Brain of microphone interaction.
+    try:
+        with sr.Microphone(device_index=mic_index) as source:
+            print(f"--- Sun raha hoon... (Mic Index: {mic_index}) ---")
+            
+            # 0.5 sec background noise measure karke usse "minus" karta hai.
             recognizer.adjust_for_ambient_noise(source, duration=0.5)
             
-            # 8. Mic se awaaz sunna (max 10 sec recording).
+            # Actually audio record karna shuru karta hai.
             audio = recognizer.listen(source, timeout=5, phrase_time_limit=10)
-            
-            print("Done listening!")
-            # 9. Raw audio data return karna.
+            print("Awaaz capture ho gayi!")
             return audio
-            
-        except sr.WaitTimeoutError:
-            print("Error: No speech detected (Timeout).")
-            return None
-        except Exception as e:
-            print(f"An error occurred: {e}")
-            return None
+    except Exception as e:
+        print(f"Mic error: {e}")
+        return None
+
 
 def save_audio_to_file(audio_data, base_name="audio"):
-    # 12. Check karna ki audio data hai ya nahi.
-    if audio_data is None:
-        return None
+    """
+    KAAM: Raw audio bytes ko .wav file mein badalna.
+    KYUN: Whisper AI ko audio sunane ke liye file ka hona zaruri hai.
+    RETURN: File path string (Jaise 'audio1.wav').
+    """
+    if audio_data is None: return None
 
-    # 13. Available filename dhundna (audio1, audio2...).
+    # Folder create karna agar nahi hai toh.
+    os.makedirs("audio", exist_ok=True)
+
+    # Naya filename dhoondna taaki purani file overwrite na ho.
     counter = 1
-    while os.path.exists(f"{base_name}{counter}.wav"):
+    while os.path.exists(os.path.join("audio", f"{base_name}{counter}.wav")):
         counter += 1
-    
-    file_name = f"{base_name}{counter}.wav"
+    file_name = os.path.join("audio", f"{base_name}{counter}.wav")
 
     try:
-        # 14. File mein WAV data write karna.
+        # Binary mode ('wb') mein sound data save karna.
         with open(file_name, "wb") as f:
             f.write(audio_data.get_wav_data())
-        
-        print(f"Audio saved successfully as: {file_name}")
-        # 15. File path return karna.
+        print(f"Audio file save hui: {file_name}")
         return file_name
     except Exception as e:
-        print(f"Failed to save audio file: {e}")
+        print(f"File save error: {e}")
         return None
+
 
 def transcribe_audio(file_path):
-    # 18. Check karna ki file exist karti hai.
-    if not os.path.exists(file_path):
-        return None
+    """
+    KAAM: .wav file ko sun kar usse text mein badalna.
+    KYUN: Computer ko batana ki user ne kya bola.
+    RETURN: Raw text string (Jaise 'नमस्ते').
+    """
+    if not os.path.exists(file_path): return None
 
-    print(f"Converting audio to text...")
-    
+    print("Whisper audio sun raha hai...")
     try:
-        # 19. Whisper model load karna (Tiny version is fast).
-        model = WhisperModel("tiny", device="cpu", compute_type="int8")
-
-        # 20. Audio file ko text mein convert karna (Forcing English 'en').
-        # Agar aap Hindi bolna chahte hain toh 'hi' bhi kar sakte hain.
-        segments, info = model.transcribe(file_path, beam_size=5, language="en")
-
-        print(f"Detected language '{info.language}' with probability {info.language_probability:.2f}")
-
-        # 21. Saare sentence segments ko ek string mein jodna.
-        text_result = ""
-        for segment in segments:
-            text_result += segment.text + " "
+        # AI actually transcribing...
+        segments, info = WHISPER_MODEL.transcribe(file_path, beam_size=5, task="transcribe")
         
-        text_result = text_result.strip()
-
-        if text_result:
-            # 22. Text ko 'stored_text' folder mein save karna.
-            folder_name = "stored_text"
-            os.makedirs(folder_name, exist_ok=True)
-            text_file_name = os.path.join(folder_name, os.path.basename(file_path).replace(".wav", ".txt"))
-            with open(text_file_name, "w") as f:
-                f.write(text_result)
-            print(f"Success: Text stored in {text_file_name}")
-
-        # Note: Audio file deletion removed as requested.
-        print(f"File Kept: You can listen to {file_path} for quality check.")
-
-        return text_result
+        # Alag alag tukdon (segments) ko jod kar ek sentence banana.
+        raw_text = " ".join(segment.text for segment in segments).strip()
+        return raw_text
     except Exception as e:
         print(f"Transcription error: {e}")
         return None
 
-# 3. Main execution yahan se start hoti hai.
-if __name__ == "__main__":
-    # 4. Step 1: Voice capture karo.
-    audio_captured = capture_audio()
+
+def convert_to_hinglish(raw_text):
+    """
+    KAAM: Hindi script (Devanagari) ko English script (Roman) mein badalna.
+    KYUN: Readability behtar karne ke liye aur coding flows mein asani ke liye.
+    RETURN: Final Hinglish string.
+    """
+    if not raw_text: return None
+
+    words = raw_text.split() # Sentence ko ek ek word mein todna.
+    result_words = []
+
+    for word in words:
+        # Check karna ki word Hindi hai ya nahi.
+        if has_devanagari(word):
+            # Hindi word ko English letters mein convert karna.
+            roman_word = transliterate(word, sanscript.DEVANAGARI, sanscript.ITRANS)
+            result_words.append(roman_word)
+        else:
+            # Agar pehle se English hai toh waisa hi rehne do.
+            result_words.append(word)
+
+    return " ".join(result_words)
+
+
+def save_text(text, audio_file_path):
+    """
+    KAAM: Final output ko ek .txt file mein save karna.
+    KYUN: Taki future mein record rahe ki user ne kya bola tha.
+    RETURN: None.
+    """
+    os.makedirs("stored_text", exist_ok=True)
+    base_name = os.path.basename(audio_file_path).replace(".wav", ".txt")
+    text_file_path = os.path.join("stored_text", base_name)
     
-    # 10. Agar awaaz mil gayi:
-    if audio_captured:
-        # 11. Step 2: Audio ko save karo.
-        file_path = save_audio_to_file(audio_captured)
+    try:
+        with open(text_file_path, "w", encoding="utf-8") as f:
+            f.write(text)
+        print(f"Text save hua: {text_file_path}")
+    except Exception as e:
+        print(f"Text save error: {e}")
+
+
+# ================================================================
+# SECTION: MAIN EXECUTION BLOCK (Yahan se asli kaam shuru hota hai)
+# ================================================================
+
+if __name__ == "__main__":
+    
+    # 1. Mic se awaaz lena.
+    audio = capture_audio(mic_index=24)
+    
+    if audio:
+        # 2. Awaaz ko file mein save karna.
+        file_path = save_audio_to_file(audio)
         
-        # 16. Agar file save ho gayi:
         if file_path:
-            # 17. Step 3: Audio ko text mein badlo.
-            text = transcribe_audio(file_path)
+            # 3. AI ko audio file sunana aur text lena.
+            raw_text = transcribe_audio(file_path)
+            print(f"Raw AI Output: {raw_text}")
             
-            # 23. Final Result dikhao.
-            if text:
-                print(f"\n--- Result ---")
-                print(f"You said: {text}")
-            else:
-                print("Failed to convert audio to text.")
-    else:
-        print("Process failed at Mic Capture.")
+            # 4. Hindi ko Hinglish mein badalna.
+            hinglish_text = convert_to_hinglish(raw_text)
+            
+            if hinglish_text:
+                # 5. Final text ko save karna.
+                save_text(hinglish_text, file_path)
+                
+                # 6. Screen par result dikhana.
+                print(f"\n{'='*40}")
+                print(f"FINAL HINGLISH: {hinglish_text}")
+                print(f"{'='*40}")
+
