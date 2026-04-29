@@ -1,6 +1,0 @@
-Collecting av
-  Downloading av-17.0.1-cp311-abi3-manylinux_2_28_x86_64.whl.metadata (4.6 kB)
-Downloading av-17.0.1-cp311-abi3-manylinux_2_28_x86_64.whl (36.3 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 36.3/36.3 MB 5.3 MB/s  0:00:07
-Installing collected packages: av
-Successfully installed av-17.0.1
