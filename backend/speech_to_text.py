@@ -1,6 +1,7 @@
 import speech_recognition as sr
 from text_sending_to_cohore_api import cohore_model_classify
 import llm_model 
+from text_to_speech import speak_text
 def captureAudio_into_text():
 
     recogniser = sr.Recognizer()
@@ -67,9 +68,10 @@ if __name__ == "__main__":
 # module 3 : groq model   
    
     if response == "GENERAL":
-        print("calling general query : ")
+        print("calling general query : \n\n ")
         groq_response = llm_model.groq_model(user_asked)
-        print("groq response is : ",groq_response)
+        print("\n\n\ngroq response is : ",groq_response)
+        speak_text(groq_response)
         print("groq work is done .✅✅✅")
         
     elif response == "REALTIME":
@@ -79,7 +81,7 @@ if __name__ == "__main__":
 
     elif response == "SYSTEM":
         print("system")
-        llm_model.system_query(response)
+        llm_model.system_query(user_asked)
         print("system commdn is executed ✅✅✅")
         
 
