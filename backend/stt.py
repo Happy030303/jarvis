@@ -1,7 +1,7 @@
 import speech_recognition as sr
-from text_sending_to_cohore_api import cohore_model_classify
+from cohore_api import cohore_model_classify
 import llm_model 
-from text_to_speech import speak_text
+from tts import speak_text
 def captureAudio_into_text():
 
     recogniser = sr.Recognizer()
@@ -76,12 +76,14 @@ if __name__ == "__main__":
         
     elif response == "REALTIME":
         print("calling realtime query ")
-        llm_model.realtime_query()
+        groq_response = llm_model.realtime_query(user_asked)
         print("real time query has responded ✅✅✅")
+        speak_text(groq_response)
 
     elif response == "SYSTEM":
         print("system")
         llm_model.system_query(user_asked)
         print("system commdn is executed ✅✅✅")
+        
         
 

@@ -1,5 +1,5 @@
 from groq import Groq
-
+import realtime
 from system_script import system_command 
 
 # 🔹 Client ek hi baar banao
@@ -21,9 +21,14 @@ def groq_model(user_asked: str) -> str:                        #  ✅✅✅
     return groq_response
 
 # -----------------------------------------------------------------------------------------
-# def realtime_query(user_asked: str) -> str:  # ✅ user_asked added as parameter
-#     # we will make it some other day
-#     pass
+
+#real time query : 
+
+def realtime_query(user_asked: str) -> str:  # ✅ user_asked added as parameter
+    print("\n\n\ncalling realtime query : \n\n")
+    realtime.realtime_query(user_asked)
+    
+
 # -----------------------------------------------------------------------------------
 def system_query(command ): # system query 🛠️🛠️🛠️
     print("SYSTEM CMS Is : ", command)
@@ -34,7 +39,7 @@ def system_query(command ): # system query 🛠️🛠️🛠️
 
 
 
-if __name__ == "__main__":
-    
+# if __name__ == "__main__":
+        # we made to test this file
 
-    system_query("open youtube")
+#     system_query("open youtube")

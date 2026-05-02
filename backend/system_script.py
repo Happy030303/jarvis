@@ -68,5 +68,5 @@ def system_command(user_commmand: str) -> str:  # system query 🛠️🛠️�
         return "Sorry, I cannot perform that system user_commmand."
 
 
-if __name__ == "__main__":
-    system_query("open spotif")
+# if __name__ == "__main__":
+#     system_query("open spotif")

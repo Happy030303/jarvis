@@ -9,5 +9,5 @@ def speak_text(text: str):
 
 
 
-if __name__ == "__main__":
-    speak_text("Hi my name is happy singh")
+# if __name__ == "__main__":
+#     speak_text("Hi my name is happy singh")
