@@ -42,6 +42,7 @@ def listen():
     """
     ONE-SHOT listen:  frontend calls this once per mic click.
     Stops any ongoing speech first, then records a single utterance.
+    it just turns voice into text and sends to html, then html code sends it to /ask endpoint which send to cohore api
     """
     stop_speaking()          # kill whatever Jarvis was saying
     _set_listening(True)
@@ -50,13 +51,17 @@ def listen():
     recogniser.energy_threshold = 300   # lower = more sensitive
     recogniser.dynamic_energy_threshold = True
 
+    recogniser.pause_threshold = 2      # 0.8 tha, ab 1.5s silence ke baad khatam hoga
+    recogniser.phrase_threshold = 0.1     # choti awaaz bhi capture ho
+    recogniser.non_speaking_duration = 1.5  # pause ke baad itna aur sune
+
     try:
         with sr.Microphone() as source:
             # Quick noise calibration — 0.3s is enough
             recogniser.adjust_for_ambient_noise(source, duration=0.3)
             # timeout=5  → give up after 5s of silence
             # phrase_time_limit=12 → max 12s of speech
-            audio = recogniser.listen(source, timeout=5, phrase_time_limit=12)
+            audio = recogniser.listen(source, timeout=5, phrase_time_limit=20)
 
         text = recogniser.recognize_google(audio, language="en-US")
         _set_listening(False)
@@ -84,18 +89,18 @@ def ask():
         return jsonify({"error": "No text provided"}), 400
 
     try:
-        # ── Classify intent ──
+        # ── Classify intent ── # sending user asked to cohore api
         category = cohore_model_classify(user_text)
 
         if category == "GENERAL":
             response = llm_model.groq_model(user_text)
-            threading.Thread(target=speak_text, args=(response,), daemon=True).start()
+            threading.Thread(target=speak_text, args=(response,), daemon=True).start() # threading ma "speak_text() method" or "response return" ek shaat ho raha hai
             return jsonify({"success": True, "category": "GENERAL", "response": response})
 
         elif category == "REALTIME":
             response = llm_model.realtime_query(user_text)
             if response:
-                threading.Thread(target=speak_text, args=(response,), daemon=True).start()
+                threading.Thread(target=speak_text, args=(response,), daemon=True).start() # threading ma "speak_text() method" or "response return" ek
             return jsonify({
                 "success": True,
                 "category": "REALTIME",
@@ -105,7 +110,7 @@ def ask():
         elif category == "SYSTEM":
             llm_model.system_query(user_text)
             msg = "System command executed."
-            threading.Thread(target=speak_text, args=(msg,), daemon=True).start()
+            threading.Thread(target=speak_text, args=(msg,), daemon=True).start()  # threading ma "speak_text() method" or "response return" ek
             return jsonify({"success": True, "category": "SYSTEM", "response": msg})
 
     except Exception as e:

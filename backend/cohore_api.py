@@ -14,7 +14,7 @@ def cohore_model_classify(user_text:str) -> str:
     Rules:
     - GENERAL: knowledge, facts(static facts, like photosyntensis, gravity, which is eternal truth till now), coding, conversation, whatever you have information without going to internet to search 
     - REALTIME: for ANYTHING that involves current, latest, now, today, live data, current leaders, prices, scores, news, weather, leaders name, ceo names, wars which litterly need real time data to know the exact data
-    - SYSTEM: commands to control device or system
+    - SYSTEM: commands to control device or system, open youtube, serach youtube
 
     Output ONLY one word: GENERAL or REALTIME or SYSTEM.
 

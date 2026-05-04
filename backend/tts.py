@@ -1,21 +1,22 @@
 import subprocess
 import sys
 import threading
+import os
+import signal
 
 _lock    = threading.Lock()
-_process = None   # the running pyttsx3 subprocess
+_process = None
 
 
 def speak_text(text: str):
-    """Stop whatever is playing, then speak new text in a fresh subprocess."""
-    stop_speaking()          # kill previous first
-
+    stop_speaking()
     global _process
     script = f"""
 import pyttsx3
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
-engine.setProperty('voice', voices[3].id)
+voice_index = 3 if len(voices) > 3 else 0
+engine.setProperty('voice', voices[voice_index].id)
 engine.setProperty('rate', 170)
 engine.say({repr(text)})
 engine.runAndWait()
@@ -24,15 +25,15 @@ engine.runAndWait()
         _process = subprocess.Popen(
             [sys.executable, "-c", script],
             stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL
+            stderr=subprocess.DEVNULL,
+            creationflags=subprocess.CREATE_NEW_PROCESS_GROUP  # ← Windows pe clean kill
         )
 
 
 def stop_speaking():
-    """Immediately kill the TTS subprocess — stops audio mid-sentence."""
     global _process
     with _lock:
         if _process and _process.poll() is None:
             _process.kill()
-            _process.wait()   # wait for OS to fully release audio device
+            _process.wait()
         _process = None

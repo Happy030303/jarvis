@@ -1,6 +1,7 @@
 from groq import Groq
 import realtime
 from system_script import system_command 
+import os
 
 # 🔹 Client ek hi baar banao
 client = Groq(api_key="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")
@@ -32,7 +33,9 @@ def realtime_query(user_asked: str) -> str:  # ✅ user_asked added as parameter
 # -----------------------------------------------------------------------------------
 def system_query(command ): # system query 🛠️🛠️🛠️
     print("SYSTEM CMS Is : ", command)
-    system_command(command)
+    url = system_command(command)
+    os.system(f"start {url}")
+    
 
     
 
