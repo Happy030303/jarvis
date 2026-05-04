@@ -1,13 +1,28 @@
-from gtts import gTTS
-import os
+import subprocess
+import sys
+
+_process = None
 
 def speak_text(text: str):
-    tts = gTTS(text=text, lang='en')  # we are using Google text to speech 
-    tts.save("output.mp3")            # gTTS sends object which has save() to save audio file save
+    global _process
+    stop_speaking()  # pehle purana band karo
+    
+    # alag python process mein bolao
+    _process = subprocess.Popen([
+        sys.executable, "-c",
+        f"""
+import pyttsx3
+engine = pyttsx3.init()
+voices = engine.getProperty('voices')
+engine.setProperty('voice', voices[3].id)
+engine.setProperty('rate', 170)
+engine.say({repr(text)})
+engine.runAndWait()
+"""
+    ])
 
-    os.system("start output.mp3")     # Windows ke liye (auto play)
-
-
-
-# if __name__ == "__main__":
-#     speak_text("Hi my name is happy singh")
+def stop_speaking():
+    global _process
+    if _process and _process.poll() is None:  # chal raha hai?
+        _process.kill()                        # kill karo
+        _process = None

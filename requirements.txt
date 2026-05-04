@@ -1,0 +1,15 @@
+# ===============================================================
+# MISSION FPALANTIR: JARVIS CORE - INSTALLATION BOX
+# ===============================================================
+# Version constraints removed to allow auto-resolution on Python 3.10
+
+cohere
+groq
+duckduckgo_search
+ddgs
+requests
+Flask
+Flask-Cors
+SpeechRecognition
+pyttsx3 # text to speech 
+PyAudio

@@ -26,7 +26,7 @@ def groq_model(user_asked: str) -> str:                        #  ✅✅✅
 
 def realtime_query(user_asked: str) -> str:  # ✅ user_asked added as parameter
     print("\n\n\ncalling realtime query : \n\n")
-    realtime.realtime_query(user_asked)
+    return realtime.realtime_query(user_asked)
     
 
 # -----------------------------------------------------------------------------------
