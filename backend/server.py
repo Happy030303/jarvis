@@ -120,3 +120,5 @@ def status():
 if __name__ == "__main__":
     print("\n  JARVIS server starting on http://localhost:5000\n")
     app.run(host="0.0.0.0", port=5000, debug=False, threaded=True)
+
+    # server.py is working .......
